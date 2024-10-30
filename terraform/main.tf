@@ -23,9 +23,9 @@ resource "aws_s3_bucket_lifecycle_configuration" "s3_lifecycle_config" {
   bucket = aws_s3_bucket.s3_example.id
 
   rule {
-    id      = "expire"
-    status  = "Enabled"
-    prefix  = "logs/"
+    id     = "expire"
+    status = "Enabled"
+    prefix = "logs/"
     transition {
       days          = 30
       storage_class = "STANDARD_IA"
