@@ -10,10 +10,19 @@
     "type": "git",
     "url": "git+https://github.com/RaytraceSG/simple-cicd-pipeline.git"
   },
-  "author": "azmi",
+  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/RaytraceSG/simple-cicd-pipeline/issues"
   },
-  "homepage": "https://github.com/RaytraceSG/simple-cicd-pipeline#readme"
+  "homepage": "https://github.com/RaytraceSG/simple-cicd-pipeline#readme",
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "chai": "^5.1.1",
+    "jest": "^29.7.0",
+    "mocha": "^10.4.0",
+    "supertest": "^7.0.0"
+  }
 }
