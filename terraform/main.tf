@@ -1,9 +1,9 @@
 resource "aws_s3_bucket" "s3_example" {
-  bucket = "azmi1-terraform-ci-bucket-20241030"  
+  bucket = "azmi1-terraform-ci-bucket-20241030"
+  #checkov:skip=CKV2_AWS_62:Skip event notifications
+  #checkov:skip=CKV2_AWS_144:Skip cross-region replication
+  #checkov:skip=CKV2_AWS_145:Skip KMS encryption
 }
-#checkov:skip=CKV2_AWS_62:Skip event notifications
-#checkov:skip=CKV2_AWS_144:Skip cross-region replication
-#checkov:skip=CKV2_AWS_145:Skip KMS encryption
 
 resource "aws_s3_bucket_versioning" "s3_bucket_versioning" {
   bucket = aws_s3_bucket.s3_example.id
