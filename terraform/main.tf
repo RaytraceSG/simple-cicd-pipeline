@@ -3,6 +3,7 @@ resource "aws_s3_bucket" "s3_example" {
   #checkov:skip=CKV2_AWS_62:Skip event notifications
   #checkov:skip=CKV_AWS_144:Skip cross-region replication
   #checkov:skip=CKV_AWS_145:Skip KMS encryption
+  #checkov:skip=CKV_AWS_18:Skip Access Logging
 }
 
 resource "aws_s3_bucket_versioning" "s3_bucket_versioning" {
@@ -15,8 +16,10 @@ resource "aws_s3_bucket_versioning" "s3_bucket_versioning" {
 resource "aws_s3_bucket_public_access_block" "s3_public_access_block" {
   bucket = aws_s3_bucket.s3_example.id
 
-  block_public_acls   = true
-  block_public_policy = true
+  block_public_acls       = true
+  block_public_policy     = true
+  restrict_public_buckets = true
+  ignore_public_acls      = true
 }
 
 resource "aws_s3_bucket_lifecycle_configuration" "s3_lifecycle_config" {
@@ -34,4 +37,13 @@ resource "aws_s3_bucket_lifecycle_configuration" "s3_lifecycle_config" {
       days = 90
     }
   }
+  rule {
+    abort_incomplete_multipart_upload {
+      days_after_initiation = 7
+    }
+    filter {}
+    id     = "log"
+    status = "Enabled"
+  }
+
 }
