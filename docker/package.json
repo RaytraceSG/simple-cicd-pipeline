@@ -1,0 +1,19 @@
+{
+  "name": "simple-cicd-pipeline",
+  "version": "1.0.0",
+  "description": "cicd for ecs",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --runInBand --detectOpenHandles --forceExit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RaytraceSG/simple-cicd-pipeline.git"
+  },
+  "author": "azmi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RaytraceSG/simple-cicd-pipeline/issues"
+  },
+  "homepage": "https://github.com/RaytraceSG/simple-cicd-pipeline#readme"
+}
