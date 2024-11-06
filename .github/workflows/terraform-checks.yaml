@@ -1,4 +1,5 @@
 name: Terraform Checks
+run-name: Running Terraform Checks by ${{ github.actor }}
 
 on:
   pull_request:
@@ -9,6 +10,7 @@ on:
 jobs:
   Terraform-Checks:
     runs-on: ubuntu-latest
+
     defaults:
       run:
         working-directory: terraform
