@@ -44,7 +44,7 @@ resource "aws_ecs_service" "nginx_service" {
   desired_count   = 2
 
   network_configuration {
-    subnets          = [module.vpc.public_subnets.ids] # Replace with your subnet IDs
+    subnets          = module.vpc.public_subnets# Replace with your subnet IDs
     assign_public_ip = true
   }
 
@@ -61,7 +61,7 @@ resource "aws_lb" "nginx_alb" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.azmi1-tf-sg-allow-ssh-http-https.id]
-  subnets            = [module.vpc.public_subnets.ids] # Replace with your subnet IDs
+  subnets            = module.vpc.public_subnets # Replace with your subnet IDs
 }
 
 # ALB Listener
