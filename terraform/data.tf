@@ -1,25 +1,25 @@
-data "aws_vpc" "selected_vpc" {
+data "aws_ami" "aws_ami_data" {
+  most_recent = true
+  owners      = ["amazon"]
+
   filter {
-    name   = "tag:Name"
-    values = ["ce7-ty-vpc"]
+    name   = "name"
+    values = ["al2023-ami-2023*"]
   }
 
-}
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
 
-data "aws_security_group" "selected_sg" {
   filter {
-    name   = "group-name"
-    values = ["ce7-ty-vpc"]
+    name   = "virtualization-type"
+    values = ["hvm"]
   }
-}
 
-data "aws_subnets" "public_subnets" {
   filter {
-    name   = "vpc-id"
-    values = [data.aws_vpc.aws_vpc_data.id]
+    name   = "architecture"
+    values = ["x86_64"]
   }
-  filter {
-    name   = "tag:Name"
-    values = ["*public*"]
-  }
+
 }

@@ -28,7 +28,9 @@ resource "aws_s3_bucket_lifecycle_configuration" "s3_lifecycle_config" {
   rule {
     id     = "expire"
     status = "Enabled"
-    prefix = "logs/"
+    filter {
+      prefix = "logs/"
+    }
     transition {
       days          = 30
       storage_class = "STANDARD_IA"
