@@ -44,7 +44,7 @@ resource "aws_ecs_service" "nginx_service" {
   desired_count   = 2
 
   network_configuration {
-    subnets          = module.vpc.public_subnets# Replace with your subnet IDs
+    subnets          = module.vpc.public_subnets # Replace with your subnet IDs
     assign_public_ip = true
   }
 
