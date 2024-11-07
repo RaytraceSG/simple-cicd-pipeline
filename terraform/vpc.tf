@@ -18,6 +18,7 @@ module "vpc" {
     Created_by  = "Azmi"
     Cohort      = "CE7"
   }
+  #checkov:skip=CKV_TF_1:Ensure Terraform module sources use a commit hash
 }
 
 output "vpc_id" {

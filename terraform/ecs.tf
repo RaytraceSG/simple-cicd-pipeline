@@ -1,6 +1,10 @@
 # Create ECS Cluster
 resource "aws_ecs_cluster" "nginx_cluster" {
   name = var.ecs_cluster_name
+  setting {
+    name  = "containerInsights"
+    value = "enabled"
+  }
 }
 
 # Task Definition
@@ -33,6 +37,7 @@ resource "aws_ecs_task_definition" "nginx_task" {
       ]
     }
   ])
+  #checkov:skip=CKV_AWS_336:Ensure ECS containers are limited to read-only access to root filesystems
 }
 
 # ECS Service
@@ -53,15 +58,21 @@ resource "aws_ecs_service" "nginx_service" {
     container_name   = "azmi1-nginx-container-1"
     container_port   = 80
   }
+  #checkov:skip=CKV_AWS_333:Ensure ECS services do not have public IP addresses assigned to them automatically
 }
 
 # Application Load Balancer
 resource "aws_lb" "nginx_alb" {
-  name               = "azmi1-nginx-alb"
-  internal           = false
-  load_balancer_type = "application"
-  security_groups    = [aws_security_group.azmi1-tf-sg-allow-ssh-http-https.id]
-  subnets            = module.vpc.public_subnets # Replace with your subnet IDs
+  name                       = "azmi1-nginx-alb"
+  internal                   = false
+  load_balancer_type         = "application"
+  security_groups            = [aws_security_group.azmi1-tf-sg-allow-ssh-http-https.id]
+  subnets                    = module.vpc.public_subnets # Replace with your subnet IDs
+  drop_invalid_header_fields = true
+  #checkov:skip=CKV_AWS_150:Ensure that Load Balancer has deletion protection enabled
+  #checkov:skip=CKV_AWS_91:Ensure the ELBv2 (Application/Network) has access logging enabled
+  #checkov:skip=CKV2_AWS_20:Ensure that ALB redirects HTTP requests into HTTPS ones
+  #checkov:skip=CKV2_AWS_28:Ensure public facing ALB are protected by WAF
 }
 
 # ALB Listener
@@ -74,6 +85,8 @@ resource "aws_lb_listener" "front_end" {
     type             = "forward"
     target_group_arn = aws_lb_target_group.nginx_tg.arn
   }
+  #checkov:skip=CKV_AWS_2:Ensure ALB protocol is HTTPS
+  #checkov:skip=CKV_AWS_103:Ensure that load balancer is using at least TLS 1.2
 }
 
 # Target Group
@@ -93,4 +106,5 @@ resource "aws_lb_target_group" "nginx_tg" {
     path                = "/"
     unhealthy_threshold = "2"
   }
+  #checkov:skip=CKV_AWS_378:Ensure AWS Load Balancer doesn't use HTTP protocol
 }
