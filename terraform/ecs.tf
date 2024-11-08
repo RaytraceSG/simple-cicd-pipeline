@@ -21,7 +21,7 @@ resource "aws_ecs_task_definition" "nginx_task" {
       image = "nginx:latest"
       portMappings = [
         {
-          name = "nginx80-tcp"
+          name          = "nginx80-tcp"
           containerPort = 80
           hostPort      = 80
           protocol      = "tcp"
@@ -29,16 +29,16 @@ resource "aws_ecs_task_definition" "nginx_task" {
         }
       ]
       essential = true
-      logConfiguration: {
-          logDriver: "awslogs"
-          options: {
-            awslogs-group: "/ecs/azmi1-taskdef-test"
-            mode: "non-blocking"
-            awslogs-create-group: "true"
-            max-buffer-size: "25m"
-            awslogs-region: "us-east-1"
-            awslogs-stream-prefix: "ecs"
-          }
+      logConfiguration : {
+        logDriver : "awslogs"
+        options : {
+          awslogs-group : "/ecs/azmi1-taskdef-test"
+          mode : "non-blocking"
+          awslogs-create-group : "true"
+          max-buffer-size : "25m"
+          awslogs-region : "us-east-1"
+          awslogs-stream-prefix : "ecs"
+        }
       }
     }
   ])
@@ -56,7 +56,7 @@ resource "aws_ecs_service" "nginx_service" {
   network_configuration {
     subnets          = module.vpc.public_subnets # Replace with your subnet IDs
     assign_public_ip = true
-    security_groups = [aws_security_group.azmi1-tf-sg-allow-ssh-http-https.id]
+    security_groups  = [aws_security_group.azmi1-tf-sg-allow-ssh-http-https.id]
   }
 
   load_balancer {
