@@ -1,4 +1,5 @@
 name: Checkov
+run-name: Running Checkov IaC Scan by ${{ github.actor }}
 
 on:
   pull_request:
@@ -15,7 +16,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Checkov
         uses: bridgecrewio/checkov-action@master
