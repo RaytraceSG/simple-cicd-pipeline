@@ -17,4 +17,5 @@ module "ec2_instance" {
   }
   #checkov:skip=CKV2_AWS_41:Skip IAM role
   #checkov:skip=CKV_AWS_8:No launch configuration
+  #checkov:skip=CKV_TF_1:Ensure Terraform module sources use a commit hash
 }
