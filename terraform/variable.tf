@@ -16,6 +16,24 @@ variable "sg_name" {
   default     = "azmi1-tf-sg-allow-ssh-http-https"
 }
 
+variable "ecs_service_name" {
+  description = "ECS Service Name"
+  type        = string
+  default     = "azmi1-nginx-service"  
+}
+
+variable "alb_name" {
+  description = "Application Load Balancer Name"
+  type        = string
+  default     = "azmi1-nginx-alb"
+}
+
+variable "alb_tg_name" {
+  description = "Application Load Balancer Target Group Name"
+  type        = string
+  default     = "azmi1-nginx-tg"
+}
+
 # variable "key_name" {
 #   description = "Name of EC2 Key Pair"
 #   type        = string

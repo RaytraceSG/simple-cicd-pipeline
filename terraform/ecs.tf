@@ -17,7 +17,7 @@ resource "aws_ecs_task_definition" "nginx_task" {
 
   container_definitions = jsonencode([
     {
-      name  = "azmi1-nginx-container"
+      name  = "azmi1-nginx-container"  
       image = "nginx:latest"
       portMappings = [
         {
@@ -47,7 +47,7 @@ resource "aws_ecs_task_definition" "nginx_task" {
 
 # ECS Service
 resource "aws_ecs_service" "nginx_service" {
-  name            = "azmi1-nginx-service"
+  name            = var.ecs_service_name
   cluster         = aws_ecs_cluster.nginx_cluster.id
   task_definition = aws_ecs_task_definition.nginx_task.arn
   launch_type     = "FARGATE"
@@ -69,7 +69,7 @@ resource "aws_ecs_service" "nginx_service" {
 
 # Application Load Balancer
 resource "aws_lb" "nginx_alb" {
-  name                       = "azmi1-nginx-alb"
+  name                       = var.alb_name
   internal                   = false
   load_balancer_type         = "application"
   security_groups            = [aws_security_group.azmi1-tf-sg-allow-ssh-http-https.id]
@@ -97,7 +97,7 @@ resource "aws_lb_listener" "front_end" {
 
 # Target Group
 resource "aws_lb_target_group" "nginx_tg" {
-  name        = "azmi1-nginx-tg"
+  name        = var.alb_tg_name
   port        = 80
   protocol    = "HTTP"
   vpc_id      = module.vpc.vpc_id
