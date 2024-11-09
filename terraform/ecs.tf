@@ -17,7 +17,7 @@ resource "aws_ecs_task_definition" "nginx_task" {
 
   container_definitions = jsonencode([
     {
-      name  = "azmi1-nginx-container"  
+      name  = var.container_name
       image = "nginx:latest"
       portMappings = [
         {
@@ -29,17 +29,17 @@ resource "aws_ecs_task_definition" "nginx_task" {
         }
       ]
       essential = true
-      logConfiguration : {
-        logDriver : "awslogs"
-        options : {
-          awslogs-group : "/ecs/azmi1-taskdef-test"
-          mode : "non-blocking"
-          awslogs-create-group : "true"
-          max-buffer-size : "25m"
-          awslogs-region : "us-east-1"
-          awslogs-stream-prefix : "ecs"
-        }
-      }
+      # logConfiguration : {
+      #   logDriver : "awslogs"
+      #   options : {
+      #     awslogs-group : "/ecs/azmi1-taskdef-test"
+      #     mode : "non-blocking"
+      #     awslogs-create-group : "true"
+      #     max-buffer-size : "25m"
+      #     awslogs-region : "us-east-1"
+      #     awslogs-stream-prefix : "ecs"
+      #   }
+      # }
     }
   ])
   #checkov:skip=CKV_AWS_336:Ensure ECS containers are limited to read-only access to root filesystems

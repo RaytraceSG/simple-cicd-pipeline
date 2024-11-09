@@ -19,7 +19,7 @@ variable "sg_name" {
 variable "ecs_service_name" {
   description = "ECS Service Name"
   type        = string
-  default     = "azmi1-nginx-service"  
+  default     = "azmi1-nginx-service"
 }
 
 variable "alb_name" {
@@ -32,6 +32,12 @@ variable "alb_tg_name" {
   description = "Application Load Balancer Target Group Name"
   type        = string
   default     = "azmi1-nginx-tg"
+}
+
+variable "container_name" {
+  description = "Container Name"
+  type        = string
+  default     = "azmi1-nginx-container"
 }
 
 # variable "key_name" {
