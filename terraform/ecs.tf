@@ -1,6 +1,6 @@
 # Create ECS Cluster
 resource "aws_ecs_cluster" "nginx_cluster" {
-  name = var.ecs_cluster_name
+  name = "${var.name_prefix}-ecs-cluster-${terraform.workspace}"
   setting {
     name  = "containerInsights"
     value = "enabled"

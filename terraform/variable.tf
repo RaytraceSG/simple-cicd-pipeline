@@ -1,3 +1,8 @@
+variable "name_prefix" {
+  description = "Prefix to be added to resource names"
+  type        = string
+  default     = "azmi1"
+}
 variable "ecs_cluster_name" {
   description = "ECS Cluster Name"
   type        = string
