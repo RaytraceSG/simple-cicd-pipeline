@@ -33,8 +33,10 @@ jobs:
         run: terraform workspace list
 
       - name: Terraform workspace new environment and select
+        env:
+          TF_WORKSPACE: ${{ github.ref == 'refs/heads/prod' && 'prod' || github.ref == 'refs/heads/uat' && 'uat' || 'dev' }}
         run: |
-          terraform workspace select ${{ github.event.inputs.choice }} || terraform workspace new ${{ github.event.inputs.choice }}
+          terraform workspace select $TF_WORKSPACE || terraform workspace new $TF_WORKSPACE
           terraform workspace list
 
       - name: Terraform Validate
