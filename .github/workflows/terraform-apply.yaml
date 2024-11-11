@@ -3,7 +3,8 @@ run-name: Running Terraform Apply by ${{ github.actor }}
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - "*"
     paths:
       - "terraform/*"
 
@@ -32,8 +33,18 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
+      - name: Terraform workspace list
+        run: terraform workspace list
+
+      - name: Terraform workspace new environment and select
+        env:
+          WORKSPACE_NAME: ${{ github.ref == 'refs/heads/prod' && 'prod' || (github.ref == 'refs/heads/uat' && 'uat' || 'dev') }}
+        run: |
+          terraform workspace select $WORKSPACE_NAME || terraform workspace new $WORKSPACE_NAME
+          terraform workspace list
+
       - name: Terraform Apply
-        run: terraform apply -no-color -auto-approve
+        run: terraform apply -no-color -auto-approve -var-file="${{ github.ref == 'refs/heads/prod' && 'prod.tfvars' || (github.ref == 'refs/heads/uat' && 'uat.tfvars' || 'dev.tfvars') }}"
 
       - name: Export terraform outputs
         id: tfout

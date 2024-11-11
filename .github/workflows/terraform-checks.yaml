@@ -3,7 +3,8 @@ run-name: Running Terraform Checks by ${{ github.actor }}
 
 on:
   pull_request:
-    branches: ["main"]
+    branches:
+      - "*"
     paths:
       - "terraform/*"
 

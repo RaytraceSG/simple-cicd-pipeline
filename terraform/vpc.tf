@@ -13,10 +13,9 @@ module "vpc" {
 
 
   tags = {
-    Terraform   = "true"
-    Environment = "dev"
-    Created_by  = "Azmi"
-    Cohort      = "CE7"
+    Terraform  = "true"
+    Created_by = "Azmi"
+    Cohort     = "CE7"
   }
   #checkov:skip=CKV_TF_1:Ensure Terraform module sources use a commit hash
 }
