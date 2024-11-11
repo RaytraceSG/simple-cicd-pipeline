@@ -15,11 +15,11 @@ variable "name_prefix" {
 #   default     = "azmi1TaskDefinitionTest"
 # }
 
-variable "sg_name" {
-  description = "Security Group Name"
-  type        = string
-  default     = "azmi1-tf-sg-allow-ssh-http-https"
-}
+# variable "sg_name" {
+#   description = "Security Group Name"
+#   type        = string
+#   default     = "azmi1-tf-sg-allow-ssh-http-https"
+# }
 
 # variable "ecs_service_name" {
 #   description = "ECS Service Name"
