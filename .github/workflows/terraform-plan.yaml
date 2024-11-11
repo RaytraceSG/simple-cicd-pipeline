@@ -32,6 +32,9 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
+      - name: Unset TF_WORKSPACE
+        run: unset TF_WORKSPACE
+
       - name: Terraform workspace list
         run: terraform workspace list
 
