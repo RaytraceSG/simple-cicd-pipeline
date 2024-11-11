@@ -3,7 +3,8 @@ run-name: Running Terraform Apply by ${{ github.actor }}
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - "*"
     paths:
       - "terraform/*"
 
