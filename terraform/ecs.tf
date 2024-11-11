@@ -29,17 +29,17 @@ resource "aws_ecs_task_definition" "nginx_task" {
         }
       ]
       essential = true
-      logConfiguration = {
-        logDriver = "awslogs"
-        options = {
-          awslogs-group         = "/ecs/${var.name_prefix}-ecs_task_def_family-${terraform.workspace}"
-          awslogs-region        = "us-east-1"
-          awslogs-stream-prefix = "ecs"
-          awslogs-create-group  = "true"
-          mode                  = "non-blocking"
-          max-buffer-size       = "25m"
-        }
-      }
+      # logConfiguration = {
+      #   logDriver = "awslogs"
+      #   options = {
+      #     awslogs-group         = "/ecs/${var.name_prefix}-ecs_task_def_family-${terraform.workspace}"
+      #     awslogs-region        = "us-east-1"
+      #     awslogs-stream-prefix = "ecs"
+      #     awslogs-create-group  = "true"
+      #     mode                  = "non-blocking"
+      #     max-buffer-size       = "25m"
+      #   }
+      # }
     }
   ])
   #checkov:skip=CKV_AWS_336:Ensure ECS containers are limited to read-only access to root filesystems
