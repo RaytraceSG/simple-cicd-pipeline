@@ -17,6 +17,7 @@ provider "aws" {
       Owner              = "Azmi"
       Cohort             = "CE7"
       TerraformWorkspace = terraform.workspace # Adds a reference tag for easier identification
+      Terraform          = true
     }
   }
 }
