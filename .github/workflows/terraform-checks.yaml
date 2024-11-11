@@ -29,6 +29,14 @@ jobs:
       - name: Terraform init
         run: terraform init -backend=false
 
+      - name: Terraform workspace list
+        run: terraform workspace list
+
+      - name: Terraform workspace new environment and select
+        run: |
+          terraform workspace select ${{ github.event.inputs.choice }} || terraform workspace new ${{ github.event.inputs.choice }}
+          terraform workspace list
+
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color

@@ -32,8 +32,16 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
+      - name: Terraform workspace list
+        run: terraform workspace list
+
+      - name: Terraform workspace new environment and select
+        run: |
+          terraform workspace select ${{ github.event.inputs.choice }} || terraform workspace new ${{ github.event.inputs.choice }}
+          terraform workspace list
+
       - name: Terraform Apply
-        run: terraform apply -no-color -auto-approve
+        run: terraform apply -no-color -auto-approve -var-file=${{ github.event.inputs.choice }}.tfvars
 
       - name: Export terraform outputs
         id: tfout

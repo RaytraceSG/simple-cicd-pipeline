@@ -33,8 +33,16 @@ jobs:
       - name: Terraform Init
         run: terraform init
 
+      - name: Terraform workspace list
+        run: terraform workspace list
+
+      - name: Terraform workspace new environment and select
+        run: |
+          terraform workspace select ${{ github.event.inputs.choice }} || terraform workspace new ${{ github.event.inputs.choice }}
+          terraform workspace list
+
       - name: Terraform Destroy
         if: ${{ github.event.inputs.confirmation }} == "DESTROY"
         id: destroy
-        run: terraform destroy -auto-approve
+        run: terraform destroy -auto-approve -var-file=${{ github.event.inputs.choice }}.tfvars
         continue-on-error: true
