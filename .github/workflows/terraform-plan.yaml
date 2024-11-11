@@ -37,10 +37,10 @@ jobs:
 
       - name: Terraform workspace new environment and select
         env:
-          WORKSPACE_NAME: ${{ github.ref == 'refs/heads/prod' && 'prod' || (github.ref == 'refs/heads/uat' && 'uat' || 'dev') }}
+          WORKSPACE_NAME: ${{ github.base_ref == 'refs/heads/prod' && 'prod' || (github.base_ref == 'refs/heads/uat' && 'uat' || 'dev') }}
         run: |
           terraform workspace select $WORKSPACE_NAME || terraform workspace new $WORKSPACE_NAME
           terraform workspace list
 
       - name: Terraform Plan
-        run: terraform plan -var-file="${{ github.ref == 'refs/heads/prod' && 'prod.tfvars' || (github.ref == 'refs/heads/uat' && 'uat.tfvars' || 'dev.tfvars') }}"
+        run: terraform plan -var-file="${{ github.base_ref == 'refs/heads/prod' && 'prod.tfvars' || (github.base_ref == 'refs/heads/uat' && 'uat.tfvars' || 'dev.tfvars') }}"
