@@ -30,16 +30,6 @@ jobs:
       - name: Terraform init
         run: terraform init -backend=false
 
-      - name: Terraform workspace list
-        run: terraform workspace list
-
-      - name: Terraform workspace new environment and select
-        env:
-          TF_WORKSPACE: ${{ github.ref == 'refs/heads/prod' && 'prod' || github.ref == 'refs/heads/uat' && 'uat' || 'dev' }}
-        run: |
-          terraform workspace select $TF_WORKSPACE || terraform workspace new $TF_WORKSPACE
-          terraform workspace list
-
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
