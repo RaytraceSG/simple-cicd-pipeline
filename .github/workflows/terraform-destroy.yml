@@ -38,9 +38,9 @@ jobs:
 
       - name: Terraform workspace new environment and select
         env:
-          TF_WORKSPACE: ${{ github.ref == 'refs/heads/prod' && 'prod' || (github.ref == 'refs/heads/uat' && 'uat' || 'dev') }}
+          WORKSPACE_NAME: ${{ github.ref == 'refs/heads/prod' && 'prod' || (github.ref == 'refs/heads/uat' && 'uat' || 'dev') }}
         run: |
-          terraform workspace select $TF_WORKSPACE || terraform workspace new $TF_WORKSPACE
+          terraform workspace select $WORKSPACE_NAME || terraform workspace new $WORKSPACE_NAME
           terraform workspace list
 
       - name: Terraform Destroy
