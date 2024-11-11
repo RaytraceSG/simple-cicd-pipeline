@@ -3,7 +3,8 @@ run-name: Running Checkov IaC Scan by ${{ github.actor }}
 
 on:
   pull_request:
-    branches: ["main"]
+    branches:
+      - "*"
     paths:
       - "terraform/*"
 
