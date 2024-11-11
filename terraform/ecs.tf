@@ -9,7 +9,7 @@ resource "aws_ecs_cluster" "nginx_cluster" {
 
 # Task Definition
 resource "aws_ecs_task_definition" "nginx_task" {
-  family                   = var.ecs_task_def_family
+  family                   = "${var.name_prefix}-ecs_task_def_family-${terraform.workspace}"
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = "1024"
@@ -17,7 +17,7 @@ resource "aws_ecs_task_definition" "nginx_task" {
 
   container_definitions = jsonencode([
     {
-      name  = var.container_name
+      name  = "${var.name_prefix}-nginx-container-${terraform.workspace}"
       image = "nginx:latest"
       portMappings = [
         {
@@ -29,17 +29,17 @@ resource "aws_ecs_task_definition" "nginx_task" {
         }
       ]
       essential = true
-      # logConfiguration : {
-      #   logDriver : "awslogs"
-      #   options : {
-      #     awslogs-group : "/ecs/azmi1-taskdef-test"
-      #     mode : "non-blocking"
-      #     awslogs-create-group : "true"
-      #     max-buffer-size : "25m"
-      #     awslogs-region : "us-east-1"
-      #     awslogs-stream-prefix : "ecs"
-      #   }
-      # }
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = "/ecs/${var.name_prefix}-ecs_task_def_family-${terraform.workspace}"
+          awslogs-region        = "us-east-1"
+          awslogs-stream-prefix = "ecs"
+          awslogs-create-group  = "true"
+          mode                  = "non-blocking"
+          max-buffer-size       = "25m"
+        }
+      }
     }
   ])
   #checkov:skip=CKV_AWS_336:Ensure ECS containers are limited to read-only access to root filesystems
@@ -47,7 +47,7 @@ resource "aws_ecs_task_definition" "nginx_task" {
 
 # ECS Service
 resource "aws_ecs_service" "nginx_service" {
-  name            = var.ecs_service_name
+  name            = "${var.name_prefix}-nginx-service-${terraform.workspace}"
   cluster         = aws_ecs_cluster.nginx_cluster.id
   task_definition = aws_ecs_task_definition.nginx_task.arn
   launch_type     = "FARGATE"
@@ -61,7 +61,7 @@ resource "aws_ecs_service" "nginx_service" {
 
   load_balancer {
     target_group_arn = aws_lb_target_group.nginx_tg.arn
-    container_name   = "azmi1-nginx-container"
+    container_name   = "${var.name_prefix}-nginx-container-${terraform.workspace}"
     container_port   = 80
   }
   #checkov:skip=CKV_AWS_333:Ensure ECS services do not have public IP addresses assigned to them automatically
@@ -69,7 +69,7 @@ resource "aws_ecs_service" "nginx_service" {
 
 # Application Load Balancer
 resource "aws_lb" "nginx_alb" {
-  name                       = var.alb_name
+  name                       = "${var.name_prefix}-nginx-alb-${terraform.workspace}"
   internal                   = false
   load_balancer_type         = "application"
   security_groups            = [aws_security_group.azmi1-tf-sg-allow-ssh-http-https.id]
@@ -97,7 +97,7 @@ resource "aws_lb_listener" "front_end" {
 
 # Target Group
 resource "aws_lb_target_group" "nginx_tg" {
-  name        = var.alb_tg_name
+  name        = "${var.name_prefix}-alb-tg-${terraform.workspace}"
   port        = 80
   protocol    = "HTTP"
   vpc_id      = module.vpc.vpc_id
