@@ -44,3 +44,6 @@ jobs:
 
       - name: Terraform Plan
         run: terraform plan -var-file="${{ github.base_ref == 'refs/heads/prod' && 'prod.tfvars' || (github.base_ref == 'refs/heads/uat' && 'uat.tfvars' || 'dev.tfvars') }}"
+
+      - name: Print base branch
+        run: echo "The destination branch is ${{ github.base_ref }}"

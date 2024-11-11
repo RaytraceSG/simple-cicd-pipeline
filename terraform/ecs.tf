@@ -112,5 +112,5 @@ resource "aws_lb_target_group" "nginx_tg" {
     path                = "/"
     unhealthy_threshold = "2"
   }
-  #checkov:skip=CKV_AWS_378:Ensure AWS Load Balancer doesn't use HTTP protocol 
+  #checkov:skip=CKV_AWS_378:Ensure AWS Load Balancer doesn't use HTTP protocol
 }
