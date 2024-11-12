@@ -37,14 +37,12 @@ jobs:
         run: terraform workspace list
 
       - name: Terraform workspace new environment and select
-        env:
-          WORKSPACE_NAME: ${{ github.ref_name == 'prod' && 'prod' || (github.ref_name == 'uat' && 'uat' || 'dev') }}
         run: |
-          terraform workspace select $WORKSPACE_NAME || terraform workspace new $WORKSPACE_NAME
+          terraform workspace select ${{ github.ref_name }} || terraform workspace new ${{ github.ref_name }}
           terraform workspace list
 
       - name: Terraform Apply
-        run: terraform apply -no-color -auto-approve -var-file="${{ github.ref_name == 'prod' && 'prod.tfvars' || (github.ref_name == 'uat' && 'uat.tfvars' || 'dev.tfvars') }}"
+        run: terraform apply -no-color -auto-approve -var-file="${{ github.ref_name }}.tfvars"
 
       - name: Export terraform outputs
         id: tfout
