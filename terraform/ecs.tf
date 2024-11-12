@@ -95,7 +95,7 @@ resource "aws_lb_listener" "front_end" {
   #checkov:skip=CKV_AWS_103:Ensure that load balancer is using at least TLS 1.2
 }
 
-# Target Group
+# ALB Target Group
 resource "aws_lb_target_group" "nginx_tg" {
   name        = "${var.name_prefix}-alb-tg-${terraform.workspace}"
   port        = 80
@@ -112,5 +112,5 @@ resource "aws_lb_target_group" "nginx_tg" {
     path                = "/"
     unhealthy_threshold = "2"
   }
-  #checkov:skip=CKV_AWS_378:Ensure AWS Load Balancer doesn't use HTTP protocol
+  #checkov:skip=CKV_AWS_378:Ensure AWS Load Balancer doesn't use HTTP protocol 
 }

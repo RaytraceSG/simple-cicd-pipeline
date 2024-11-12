@@ -7,6 +7,13 @@ on:
       confirmation:
         description: "type DESTROY to confirm"
         required: true
+      choice:
+        type: choice
+        description: Select the environment
+        options:
+          - dev
+          - uat
+          - prod
 
 jobs:
   Terraform-Destroy:
@@ -38,7 +45,7 @@ jobs:
 
       - name: Terraform workspace new environment and select
         env:
-          WORKSPACE_NAME: ${{ github.ref == 'refs/heads/prod' && 'prod' || (github.ref == 'refs/heads/uat' && 'uat' || 'dev') }}
+          WORKSPACE_NAME: ${{ github.event.inputs.choice }}
         run: |
           terraform workspace select $WORKSPACE_NAME || terraform workspace new $WORKSPACE_NAME
           terraform workspace list
@@ -46,5 +53,5 @@ jobs:
       - name: Terraform Destroy
         if: ${{ github.event.inputs.confirmation }} == "DESTROY"
         id: destroy
-        run: terraform destroy -auto-approve -var-file="${{ github.ref == 'refs/heads/prod' && 'prod.tfvars' || (github.ref == 'refs/heads/uat' && 'uat.tfvars' || 'dev.tfvars') }}"
+        run: terraform destroy -auto-approve -var-file=${{ github.event.inputs.choice }}.tfvars
         continue-on-error: true

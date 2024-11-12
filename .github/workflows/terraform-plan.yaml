@@ -15,6 +15,9 @@ jobs:
       run:
         working-directory: terraform
 
+    permissions:
+      pull-requests: write
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -37,10 +40,36 @@ jobs:
 
       - name: Terraform workspace new environment and select
         env:
-          WORKSPACE_NAME: ${{ github.ref == 'refs/heads/prod' && 'prod' || (github.ref == 'refs/heads/uat' && 'uat' || 'dev') }}
+          WORKSPACE_NAME: ${{ github.base_ref == 'prod' && 'prod' || (github.base_ref == 'uat' && 'uat' || 'dev') }}
         run: |
           terraform workspace select $WORKSPACE_NAME || terraform workspace new $WORKSPACE_NAME
           terraform workspace list
 
       - name: Terraform Plan
-        run: terraform plan -var-file="${{ github.ref == 'refs/heads/prod' && 'prod.tfvars' || (github.ref == 'refs/heads/uat' && 'uat.tfvars' || 'dev.tfvars') }}"
+        id: plan
+        run: terraform plan -no-color -var-file="${{ github.base_ref == 'prod' && 'prod.tfvars' || (github.base_ref == 'uat' && 'uat.tfvars' || 'dev.tfvars') }}"
+
+      - name: Update Pull Request
+        if: always()
+        uses: actions/github-script@v7
+        env:
+          PLAN: ${{ steps.plan.outputs.stdout }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+
+            <details><summary>Show Plan</summary>
+
+            \`\`\`${process.env.PLAN}\`\`\`
+
+            </details>
+
+            *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Workflow: \`${{ github.workflow }}\`*`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
