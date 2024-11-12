@@ -39,15 +39,13 @@ jobs:
         run: terraform workspace list
 
       - name: Terraform workspace new environment and select
-        env:
-          WORKSPACE_NAME: ${{ github.base_ref == 'prod' && 'prod' || (github.base_ref == 'uat' && 'uat' || 'dev') }}
         run: |
-          terraform workspace select $WORKSPACE_NAME || terraform workspace new $WORKSPACE_NAME
+          terraform workspace select ${{ github.base_ref }} || terraform workspace new ${{ github.base_ref }}
           terraform workspace list
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color -var-file="${{ github.base_ref == 'prod' && 'prod.tfvars' || (github.base_ref == 'uat' && 'uat.tfvars' || 'dev.tfvars') }}"
+        run: terraform plan -no-color -var-file="${{ github.base_ref }}.tfvars"
 
       - name: Update Pull Request
         if: always()
