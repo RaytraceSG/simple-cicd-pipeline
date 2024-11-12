@@ -1,7 +1,7 @@
 # Creates a security group that allows us to create 
 # ingress rules allowing traffic for HTTP, HTTPS and SSH protocols from anywhere
 resource "aws_security_group" "azmi1-tf-sg-allow-ssh-http-https" {
-  name        = "${var.name_prefix}-sg-${terraform.workspace}"
+  name        = "${var.name_prefix}-sg-allow-ssh-http-https-${terraform.workspace}"
   description = "Allow ssh, http and https traffic to the vpc"
   vpc_id      = module.vpc.vpc_id # var.vpc_id
 
