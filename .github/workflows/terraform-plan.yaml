@@ -47,7 +47,7 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -var-file="${{ github.base_ref == 'prod' && 'prod.tfvars' || (github.base_ref == 'uat' && 'uat.tfvars' || 'dev.tfvars') }}"
+        run: terraform plan -no-color -var-file="${{ github.base_ref == 'prod' && 'prod.tfvars' || (github.base_ref == 'uat' && 'uat.tfvars' || 'dev.tfvars') }}"
 
       - name: Update Pull Request
         if: always()
