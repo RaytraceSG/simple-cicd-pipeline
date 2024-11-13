@@ -1,8 +1,10 @@
 name: Docker Build and Test
+run-name: Running Docker Build and Test by ${{ github.actor }}
+
 on:
   pull_request:
     branches:
-      - main
+      - "*"
     paths:
       - "docker/*"
 
