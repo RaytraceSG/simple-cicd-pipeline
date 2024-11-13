@@ -1,0 +1,30 @@
+name: Snyk
+run-name: Running Snyk Scan by ${{ github.actor }}
+
+on:
+  # pull_request:
+  #   branches:
+  #     - "*"
+  #   paths:
+  #     - "docker/*"
+  workflow_dispatch:
+
+jobs:
+  Snyk:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+  package-app-scan-snyk-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - name: Install Snyk CLI
+        run: npm install -g snyk
+      - name: Run Snyk Code Scan And Check Snyk Scan Results
+        run: snyk code test
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
