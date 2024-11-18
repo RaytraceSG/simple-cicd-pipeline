@@ -8,7 +8,7 @@ module "ec2_instance" {
   key_name                    = var.key_name
   instance_type               = var.instance_type
   vpc_security_group_ids      = [aws_security_group.azmi1-tf-sg-allow-ssh-http-https.id]
-  subnet_id                   = [module.vpc.public_subnets]
+  subnet_id                   = module.vpc.public_subnets[0]
   associate_public_ip_address = true
   # user_data                   = file("init.sh")
   tags = {
