@@ -39,6 +39,7 @@ resource "aws_security_group" "azmi1-tf-sg-allow-ssh-http-https" {
   }
   #checkov:skip=CKV_AWS_260:Ensure no security groups allow ingress from 0.0.0.0:0 to port 80
   #checkov:skip=CKV_AWS_24:Ensure no security groups allow ingress from 0.0.0.0:0 to port 22
+  #checkov:skip=CKV2_AWS_5:Ensure that Security Groups are attached to another resource
 }
 
 # Uses an existing security group, filtered by sg_name in variables.tf

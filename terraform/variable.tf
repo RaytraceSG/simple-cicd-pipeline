@@ -3,6 +3,25 @@ variable "name_prefix" {
   type        = string
   default     = "azmi1"
 }
+
+variable "instance_type" {
+  description = "EC2 Instance type"
+  type        = string
+  default     = "t2.micro"
+}
+
+# variable "instance_name" {
+#   description = "EC2 Instance name"
+#   type        = string
+#   default     = "azmi1-ec2-cloudwatch"
+# }
+
+variable "key_name" {
+  description = "Name of EC2 Key Pair"
+  type        = string
+  default     = "azmi1-keypair-useast1-1" # Replace with your own key pair name (without .pem extension) that you have downloaded from AWS console previously
+}
+
 # variable "ecs_cluster_name" {
 #   description = "ECS Cluster Name"
 #   type        = string
