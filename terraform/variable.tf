@@ -10,11 +10,11 @@ variable "instance_type" {
   default     = "t2.micro"
 }
 
-variable "instance_name" {
-  description = "EC2 Instance name"
-  type        = string
-  default     = "azmi1-ec2-cloudwatch"
-}
+# variable "instance_name" {
+#   description = "EC2 Instance name"
+#   type        = string
+#   default     = "azmi1-ec2-cloudwatch"
+# }
 
 variable "key_name" {
   description = "Name of EC2 Key Pair"
