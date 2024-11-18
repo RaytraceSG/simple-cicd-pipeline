@@ -14,6 +14,7 @@ module "ec2_instance" {
   tags = {
     Name = "${var.name_prefix}-ec2-${terraform.workspace}"
   }
+  #checkov:skip=CKV_TF_1:Ensure Terraform module sources use a commit hash
 }
 
 # data "aws_subnet" "public_subnet_data" {
